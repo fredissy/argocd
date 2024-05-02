@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hazelcast-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: hazelcast
+  template:
+    metadata:
+      labels:
+        app: hazelcast
+    spec:
+      containers:
+      - name: hazelcast
+        image: hazelcast/hazelcast:5.4.0-jdk17
+        ports:
+        - containerPort: 5701
+        volumeMounts:
+        - name: hazelcast-config-volume
+          mountPath: /opt/hazelcast/config/
+      volumes:
+      - name: hazelcast-config-volume
+        configMap:
+          name: hazelcast-config
