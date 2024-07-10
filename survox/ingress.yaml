@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: survox-ingress
+  labels:
+    name: ingress
+spec:
+  rules:
+  - host: survox.dev
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: survox-front-service
+            port:
+              # Port du service, et non pas port du pod !
+              number: 8080
+  - host: survox-backend.dev
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: survox-backend-service
+            port: 
+              number: 8080

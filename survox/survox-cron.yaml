@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-workflow-deploiement
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: survox-back-cron
+            image: survox6-back:6.26.3
+            imagePullPolicy: Never
+            envFrom:
+              - secretRef:
+                  name: survox-back-secrets
+              - configMapRef:
+                  name: survox-back-configmap
+            env:
+            - name: CRONJOB
+              value: DEPLOIEMENT
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-nettoyage-surveillance
+spec:
+  schedule: "0 0-23/1 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: survox-back-cron
+            image: survox6-back:6.26.3
+            imagePullPolicy: Never
+            envFrom:
+              - secretRef:
+                  name: survox-back-secrets
+              - configMapRef:
+                  name: survox-back-configmap
+            env:
+            - name: CRONJOB
+              value: NETTOYAGE_SURVEILLANCE
