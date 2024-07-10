@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: survox-back
-        image: survox6-back:6.26.2
+        image: survox6-back:6.26.3
         imagePullPolicy : Never
         resources:
           limits:
